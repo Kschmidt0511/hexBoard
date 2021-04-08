@@ -167,16 +167,61 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		private HexTile current; // if can be removed
 		private int myVersion = version;
 		
+		//check if whats after current is in right position
+		private boolean positionHelper() {
+		//find greatestAncestor, and compare it to the node in the iterator
+			//isInProperOrder
+			if(compare(current.getLocation(), pending.peek().loc ) <0) {
+				return true;}
+			return false;
+		}
+		
+		
+		private boolean checkerHelperFour() {
+			
+			//will find the nextGreatestAncestor
+			
+			
+			
+		}
+		
 		private boolean wellFormed() {
 			// TODO:
 			// 1. Check the outer invariant (see new syntax in homework description)
+			
+			if(!(HexBoard.this.wellFormed())){
+				return false;
+			}
+			
+			
 			// 2. If we are stale, don't check anything else, pretend no problems
+			if(myVersion != version) { return true;
+			}
 			// 3. If current isn't null, there should be a node for it in the tree.
+			if(current !=null) {
+					if(!(contains(current)==true))
+					return report("no node in tree");
+				//
+			}
 			// 4. If current isn't null, the next node after it should be top of the stack
-			// 5. If the stack isn't empty, then it should have all greater ancestors of top of stack and nothing else.
+			// in a stack, the top will be furthest right in a tree
+			//helperMethod
+			//wanna find nextGreatestAncestor
+			if(current =!null) 
+			
+				current.left= pending;
+				treeNode =new Node(current.getLocation(),current.getTerrain());
+				
+			
+				
+				
+			// 5. If the stack isn't empty, then it should have all greater ancestors on top of stack and nothing else.
+			if(pending.size()!=0)
+			//order of the stack is from greatest to least. use pending
+				pending.
 			return true;
 		}
-		
+
 		private MyIterator(boolean ignored) {} // do not change, and do not use in your code
 		
 		// TODO: any helper method(s) (see homework description)
@@ -196,8 +241,38 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			return null; // TODO: find next entry and generate hex tile on demand
 		}
 
+		
+		
+		
 		@Override // required for functionality
+		//outside remove to help for this remove
 		public void remove() {
+			HexTile parentOfCurrent=null;
+			current = root;
+			for(HexTile current; current<pending.capacity(); current--) {
+				
+				parentOfCurrent = current;
+				//1-current could be null
+				//2 -current could be at root, but have no left child
+				//3 -current could be farther down the tree but still without a left child of its own 
+				if(current ==parentOfCurrent.left) {
+					//current is on right side of parent
+					//so change parents left link
+					parentOfCurrent.setLeft(current.right());
+					
+					
+				}
+				else {
+					//current is on right side of parent
+					//so change parents right link
+					parentOfCurrent.setRight(current.right());
+				}
+					
+				
+				//4-current could be non-null and have a left child, so cant ignore left subtree
+				
+				
+			}
 			throw new UnsupportedOperationException("no removal yet"); // TODO
 		}
 	}
