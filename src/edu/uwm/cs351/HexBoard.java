@@ -160,6 +160,39 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			++version;
 		}
 	}
+	private Node removeHelper(Node e, HexTile h) {
+		
+		//recursive
+		
+		//base case
+		if(e==null)return null;
+		
+		
+		//go left or right until we get to h
+		//once we get to h, do what i did in activity
+		
+		
+		
+		return e;
+	}
+	
+	private boolean remove(Object o) {
+		
+		if(!(contains(o)))return false;
+		
+		//node has the data of hexTile - which are made of terrain and coordinate
+		//cast o to a hextile
+		HexTile h = (HexTile)o;
+		
+		
+		
+		return false;
+	}
+	
+	
+	
+	
+	
 	
 	private class MyIterator implements Iterator<HexTile> {
 		// new data structure for iterator:
@@ -209,19 +242,19 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			// in a stack, the top will be furthest right in a tree
 			//helperMethod
 			//wanna find nextGreatestAncestor
-			if(current =!null) 
-				if(checkerHelperFour()==true)
+			//if(current =!null) 
+				//if(checkerHelperFour()==true)
 						
-			current = pending.pop();
+			//current = pending.pop();
 			
 				
 			
 				
 				
 			// 5. If the stack isn't empty, then it should have all greater ancestors on top of stack and nothing else.
-			if(pending.size()!=0)
+			//if(pending.size()!=0)
 			//order of the stack is from greatest to least. use pending
-				pending.
+				//pending.
 			return true;
 		}
 
@@ -243,13 +276,40 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		@Override // required by Java
 		public boolean hasNext() {
+			if(!(myVersion == version))
+			throw new ConcurrentModificationException("iterator version does not match collection version");
 			
-			return false; // TODO
+			
+			//making sure stack is not empty, so a next exists
+			
+			
+			return !(pending.isEmpty()); // TODO
 		}
 
 		@Override // required by Java
 		public HexTile next() {
-			return null; // TODO: find next entry and generate hex tile on demand
+			if(!(myVersion == version))
+			throw new ConcurrentModificationException("iterator version does not match collection version");
+			
+			if(!(hasNext()))
+				throw new NoSuchElementException("iteration has no more elements");
+			
+			Node temp= pending.pop();
+			
+			HexTile tempH = new HexTile(temp.terrain,temp.loc);
+			
+			temp = temp.right;
+			
+			while(temp !=null) {
+				pending.push(temp);
+				//after we push it, go left
+				temp = temp.left;}
+			
+			//make a new hexTile to return
+			
+			
+			
+			return tempH; // TODO: find next entry and generate hex tile on demand
 		}
 
 		
@@ -258,33 +318,35 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		@Override // required for functionality
 		//outside remove to help for this remove
 		public void remove() {
-			HexTile parentOfCurrent=null;
-			current = root;
-			for(HexTile current; current<pending.capacity(); current--) {
-				
-				parentOfCurrent = current;
-				//1-current could be null
-				//2 -current could be at root, but have no left child
-				//3 -current could be farther down the tree but still without a left child of its own 
-				if(current ==parentOfCurrent.left) {
-					//current is on right side of parent
-					//so change parents left link
-					parentOfCurrent.setLeft(current.right());
-					
-					
-				}
-				else {
-					//current is on right side of parent
-					//so change parents right link
-					parentOfCurrent.setRight(current.right());
-				}
-					
-				
-				//4-current could be non-null and have a left child, so cant ignore left subtree
-				
-				
-			}
-			throw new UnsupportedOperationException("no removal yet"); // TODO
+//			if(!(myVersion == version))
+//			throw new ConcurrentModificationException("iterator version does not match collection version");
+//			HexTile parentOfCurrent=null;
+//			current = root;
+//			for(HexTile current; current<pending.capacity(); current--) {
+//				
+//				parentOfCurrent = current;
+//				//1-current could be null
+//				//2 -current could be at root, but have no left child
+//				//3 -current could be farther down the tree but still without a left child of its own 
+//				if(current ==parentOfCurrent.left) {
+//					//current is on right side of parent
+//					//so change parents left link
+//					parentOfCurrent.setLeft(current.right());
+//					
+//					
+//				}
+//				else {
+//					//current is on right side of parent
+//					//so change parents right link
+//					parentOfCurrent.setRight(current.right());
+//				}
+//					
+//				
+//				//4-current could be non-null and have a left child, so cant ignore left subtree
+//				
+//				
+//			}
+//			throw new UnsupportedOperationException("no removal yet"); // TODO
 		}
 	}
 
