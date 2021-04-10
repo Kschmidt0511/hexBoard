@@ -169,8 +169,9 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		//check if whats after current is in right position
 		private boolean positionHelper() {
-		//find greatestAncestor, and compare it to the node in the iterator
+		//find nextGreatestAncestor, and compare it to the node in the iterator
 			//isInProperOrder
+			//go right 1 step, then recursively go left
 			if(compare(current.getLocation(), pending.peek().loc ) <0) {
 				return true;}
 			return false;
@@ -178,10 +179,11 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		
 		private boolean checkerHelperFour() {
-			
+			if(positionHelper() ==true) {
 			//will find the nextGreatestAncestor
-			
-			
+			Node nga =pending.peek();
+			return true;	}
+			return false;
 			
 		}
 		
@@ -208,9 +210,10 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			//helperMethod
 			//wanna find nextGreatestAncestor
 			if(current =!null) 
+				if(checkerHelperFour()==true)
+						
+			current = pending.pop();
 			
-				current.left= pending;
-				treeNode =new Node(current.getLocation(),current.getTerrain());
 				
 			
 				
@@ -228,11 +231,19 @@ public class HexBoard extends AbstractCollection<HexTile> {
 
 		private MyIterator() {
 			// TODO
+			Node cursor=root;
+			current =null;
+			while(cursor !=null) {
+				pending.push(cursor);
+				//after we push it, go left
+				cursor = cursor.left;
+			}
 			assert wellFormed();
 		}
 		
 		@Override // required by Java
 		public boolean hasNext() {
+			
 			return false; // TODO
 		}
 
