@@ -162,10 +162,20 @@ public class HexBoard extends AbstractCollection<HexTile> {
 	}
 	
 	
-	private HexTile predecessorFinder() {
+	private HexTile predecessorFinder(Node g) {
 		
+		HexTile pred = null;
 		
+		//left subtree, all the way right
+		g= g.left;
+		while(g.right!=null) {
+			g = g.right;
+
+		}
+	pred = new HexTile(g.terrain, g.loc);		
 		
+		return pred;
+
 	}
 	
 	
