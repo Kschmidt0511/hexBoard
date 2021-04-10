@@ -160,6 +160,15 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			++version;
 		}
 	}
+	
+	
+	private HexTile predecessorFinder() {
+		
+		
+		
+	}
+	
+	
 	private Node removeHelper(Node e, HexTile h) {
 		
 		//recursive
@@ -170,8 +179,39 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		//go left or right until we get to h
 		//once we get to h, do what i did in activity
+		if(compare(h.getLocation(), e.loc) >0) {
+			removeHelper(e.right,  h);
+			
+		}
 		
-		
+		if(compare(h.getLocation(), e.loc)<0) {
+			
+		removeHelper(e.left, h);
+		}
+			
+		if(compare(h.getLocation(),e.loc)==0) {
+			if(e.left==null && e.right==null) {
+				return null;
+				
+			}
+			if(e.left!=null &&e.right==null) {
+				
+			return e.left;
+				
+			}
+			if(e.left==null &&e.right!=null) {
+				return e.right;
+			}
+			
+			if(e.left!=null && e.right!=null) {
+				
+				
+				
+			}
+			
+			
+			
+		}
 		
 		return e;
 	}
