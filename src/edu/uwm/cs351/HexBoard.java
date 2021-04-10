@@ -215,31 +215,40 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			
 			if(e.left!=null && e.right!=null) {
 				
+				HexTile k = predecessorFinder(e);
+				
+				e.terrain = k.getTerrain();
+				e.loc = k.getLocation();
+				
+				HexTile eH = new HexTile(e.terrain, e.loc);
+				
+				e.left= removeHelper(e.left, eH);
 				
 				
 			}
-			
-			
 			
 		}
 		
 		return e;
 	}
-	
-	private boolean remove(Object o) {
+	@Override
+	public boolean remove(Object o) {
 		
-		if(!(contains(o)))return false;
+		if(!(contains(o))) {return false;}
 		
 		//node has the data of hexTile - which are made of terrain and coordinate
 		//cast o to a hextile
 		HexTile h = (HexTile)o;
+		//connect to tree
+		root =removeHelper(root, h);
 		
+		size--;
+		version++;
 		
-		
-		return false;
+		return true;
 	}
 	
-	
+
 	
 	
 	
