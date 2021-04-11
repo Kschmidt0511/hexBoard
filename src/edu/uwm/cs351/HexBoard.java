@@ -257,23 +257,73 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		private HexTile current; // if can be removed
 		private int myVersion = version;
 		
-		//check if whats after current is in right position
-		private boolean positionHelper() {
-		//find nextGreatestAncestor, and compare it to the node in the iterator
-			//isInProperOrder
-			//go right 1 step, then recursively go left
-			if(compare(current.getLocation(), pending.peek().loc ) <0) {
-				return true;}
-			return false;
-		}
+
 		
 		
-		private boolean checkerHelperFour() {
-			if(positionHelper() ==true) {
+		private boolean checkerHelperFour(Node a, Node b) {
+			//if there is no ancestor
+			if(a==null&&b==null) {
+				
+				return true;
+				
+			}
+			
+			//else if(a==null||b==null){
+				
+				//return false;
+				
+			//}
 			//will find the nextGreatestAncestor
-			Node nga =pending.peek();
-			return true;	}
-			return false;
+			//if right is null, return the fiveHelper
+			if(a.right==null) {return fiveHelper(a,b);}
+			
+			else {
+				
+				a=a.right;
+				while(a.left !=null) {
+					a=a.left;
+
+				}
+				
+			}
+
+		if(compare(a.loc,b.loc)==0) {
+			if(a.terrain==b.terrain)
+				return true;
+			
+		}
+	//else find next - so go right and then all the way left
+				//after going all the way, check if a ==b, check if coords are =, and terrain
+
+			return false;	}
+			
+			
+		
+		
+		private Node getNode(HexTile m, Node v) {
+			
+			//go left and right until we find the hextile
+			//problem now, the current we have- we dont have original right or left
+			//we dont know this right or left Node 
+			//find where Node s = new Node(current.getLocation(), current.getTerrain()); is
+			//once we find it, return that node
+			if(v==null) return null;
+			
+			//return when x coords = y coords
+			//need to compare x coords with y, to determine if we go left or right
+			if(compare(m.getLocation(), v.loc)<0)
+				return getNode(m, v.left);
+			
+			if(compare(m.getLocation(), v.loc)>0)
+				return getNode(m, v.right);
+			
+			return v;
+			
+			
+			
+			//return that node
+
+			
 			
 		}
 		
@@ -296,13 +346,6 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				//
 			}
 			
-			
-			// 4. If current isn't null, the next node after it should be top of the stack
-			// in a stack, the top will be furthest right in a tree
-			//helperMethod
-			//wanna find nextGreatestAncestor
-			//if(current =!null) 
-				//if(checkerHelperFour()==true)
 						
 			//current = pending.pop();
 			
@@ -317,17 +360,39 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			//pull out all items from this container
 			for(Node q: pending ) {
 				
-				if(helpermethod is false)
-					return report("idk yet");
+				if(fiveHelper(q, prev) ==false)
+					return report("not next greatest ancestor");
 				//update previous
 				prev =q;
 			}
 				
+			// 4. If current isn't null, the next node after it should be top of the stack
+			// in a stack, the top will be furthest right in a tree
+			//helperMethod
+			//wanna find nextGreatestAncestor
+			if(current !=null) {
+				
+	Node s = getNode(current, root);
+	
+				if(checkerHelperFour(s, prev)==false)
+					
+					return report("order of stack is wrong");}
+			
+			
+			
 			
 			//if(pending.size()!=0)
 			//order of the stack is from greatest to least. use pending
 				//pending.
-			return true;
+			
+				
+				
+				
+				
+				
+				
+				
+				return true;
 		}
 
 		private boolean fiveHelper(Node r, Node t) {
@@ -349,21 +414,14 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				if(pointer==r) {
 					return true;
 				}
-				else {
+
 					//keep going right to find r
 					pointer = pointer.right;
-					
-				}
-				return false;
+
 			}
 			
-			
-			
-			
-			
-			
-			if(compare(r,))
-			
+			return false;
+
 		}
 		
 		private MyIterator(boolean ignored) {} // do not change, and do not use in your code
