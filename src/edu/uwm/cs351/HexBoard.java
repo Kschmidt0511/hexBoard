@@ -186,17 +186,16 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		//base case
 		if(e==null)return null;
 		
-		
 		//go left or right until we get to h
 		//once we get to h, do what i did in activity
 		if(compare(h.getLocation(), e.loc) >0) {
-			removeHelper(e.right,  h);
+			e.right =removeHelper(e.right,  h);
 			
 		}
 		
 		if(compare(h.getLocation(), e.loc)<0) {
 			
-		removeHelper(e.left, h);
+		e.left =removeHelper(e.left, h);
 		}
 			
 		if(compare(h.getLocation(),e.loc)==0) {
@@ -223,7 +222,6 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				HexTile eH = new HexTile(e.terrain, e.loc);
 				
 				e.left= removeHelper(e.left, eH);
-				
 				
 			}
 			
@@ -356,7 +354,7 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			Node temp= pending.pop();
 			
 			HexTile tempH = new HexTile(temp.terrain,temp.loc);
-			
+			//if(temp.right !=null) 
 			temp = temp.right;
 			
 			while(temp !=null) {
@@ -366,7 +364,7 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			
 			//make a new hexTile to return
 			
-			
+			current =tempH;
 			
 			return tempH; // TODO: find next entry and generate hex tile on demand
 		}
@@ -377,35 +375,20 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		@Override // required for functionality
 		//outside remove to help for this remove
 		public void remove() {
-//			if(!(myVersion == version))
-//			throw new ConcurrentModificationException("iterator version does not match collection version");
-//			HexTile parentOfCurrent=null;
-//			current = root;
-//			for(HexTile current; current<pending.capacity(); current--) {
-//				
-//				parentOfCurrent = current;
-//				//1-current could be null
-//				//2 -current could be at root, but have no left child
-//				//3 -current could be farther down the tree but still without a left child of its own 
-//				if(current ==parentOfCurrent.left) {
-//					//current is on right side of parent
-//					//so change parents left link
-//					parentOfCurrent.setLeft(current.right());
-//					
-//					
-//				}
-//				else {
-//					//current is on right side of parent
-//					//so change parents right link
-//					parentOfCurrent.setRight(current.right());
-//				}
-//					
-//				
-//				//4-current could be non-null and have a left child, so cant ignore left subtree
-//				
-//				
-//			}
-//			throw new UnsupportedOperationException("no removal yet"); // TODO
+			if(!(myVersion == version))
+			throw new ConcurrentModificationException("iterator version does not match collection version");
+		 
+			//cant remove a null
+			if(current==null)throw new IllegalStateException();
+			
+			HexBoard.this.remove(current);
+			//current is now null
+			
+			//HexTile newCurrent = new HexTile(current.getTerrain(), current.getLocation());
+			current = null;
+			//current=pending.pop();
+			//increment myVersion
+			myVersion++;
 		}
 	}
 
