@@ -295,6 +295,8 @@ public class HexBoard extends AbstractCollection<HexTile> {
 					return report("no node in tree");
 				//
 			}
+			
+			
 			// 4. If current isn't null, the next node after it should be top of the stack
 			// in a stack, the top will be furthest right in a tree
 			//helperMethod
@@ -308,13 +310,62 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			
 				
 				
-			// 5. If the stack isn't empty, then it should have all greater ancestors on top of stack and nothing else.
+			// 5. If the stack isn't empty, then it should have all 
+			//greater ancestors on top of stack and nothing else.
+			Node prev = null;
+			//iterate thru stack
+			//pull out all items from this container
+			for(Node q: pending ) {
+				
+				if(helpermethod is false)
+					return report("idk yet");
+				//update previous
+				prev =q;
+			}
+				
+			
 			//if(pending.size()!=0)
 			//order of the stack is from greatest to least. use pending
 				//pending.
 			return true;
 		}
 
+		private boolean fiveHelper(Node r, Node t) {
+			//find greatest ancestor, get a pointer
+			Node pointer=t;
+			
+			//can't get an ancestor is t is null
+			if(t==null) {
+				pointer = root;
+			}
+			else {
+				pointer=t.left;
+				
+			}
+			
+			while(pointer != null) {
+				
+				//check if thing we are comparing is = to r, if so, return true
+				if(pointer==r) {
+					return true;
+				}
+				else {
+					//keep going right to find r
+					pointer = pointer.right;
+					
+				}
+				return false;
+			}
+			
+			
+			
+			
+			
+			
+			if(compare(r,))
+			
+		}
+		
 		private MyIterator(boolean ignored) {} // do not change, and do not use in your code
 		
 		// TODO: any helper method(s) (see homework description)
