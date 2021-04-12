@@ -287,8 +287,15 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				
 			}
 
+			if(b==null) {
+				
+	return false;
+	
+}
 		if(compare(a.loc,b.loc)==0) {
+			
 			if(a.terrain==b.terrain)
+				
 				return true;
 			
 		}
