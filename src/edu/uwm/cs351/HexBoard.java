@@ -14,6 +14,7 @@ import junit.framework.TestCase;
  * A hex board is a collection of hex tiles except that there can 
  * never be two tiles at the same location. 
  */
+//Kevin Schmidt HW 9
 public class HexBoard extends AbstractCollection<HexTile> {
 
 	private static int compare(HexCoordinate h1, HexCoordinate h2) {
@@ -245,12 +246,7 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		return true;
 	}
-	
 
-	
-	
-	
-	
 	private class MyIterator implements Iterator<HexTile> {
 		// new data structure for iterator:
 		private Stack<Node> pending = new Stack<>();
@@ -259,7 +255,7 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 
 		
-		
+		//will find the nextGreatestAncestor
 		private boolean checkerHelperFour(Node a, Node b) {
 			//if there is no ancestor
 			if(a==null&&b==null) {
@@ -267,16 +263,11 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				return true;
 				
 			}
-			
-			//else if(a==null||b==null){
 				
-				//return false;
-				
-			//}
-			//will find the nextGreatestAncestor
 			//if right is null, return the fiveHelper
 			if(a.right==null) {return fiveHelper(a,b);}
 			
+			//else find next - so go right and then all the way left
 			else {
 				
 				a=a.right;
@@ -291,7 +282,8 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				
 	return false;
 	
-}
+			}
+		//after going all the way, check if a ==b, check if coords are =, and terrain
 		if(compare(a.loc,b.loc)==0) {
 			
 			if(a.terrain==b.terrain)
@@ -299,14 +291,11 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				return true;
 			
 		}
-	//else find next - so go right and then all the way left
-				//after going all the way, check if a ==b, check if coords are =, and terrain
+
 
 			return false;	}
 			
-			
-		
-		
+
 		private Node getNode(HexTile m, Node v) {
 			
 			//go left and right until we find the hextile
@@ -325,12 +314,6 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				return getNode(m, v.right);
 			
 			return v;
-			
-			
-			
-			//return that node
-
-			
 			
 		}
 		
@@ -352,19 +335,12 @@ public class HexBoard extends AbstractCollection<HexTile> {
 					return report("no node in tree");
 				//
 			}
-			
-						
-			//current = pending.pop();
-			
-				
-			
-				
-				
+
 			// 5. If the stack isn't empty, then it should have all 
 			//greater ancestors on top of stack and nothing else.
 			Node prev = null;
-			//iterate thru stack
-			//pull out all items from this container
+			//iterate through stack
+			//pull out all items(q) from this container(pending)
 			for(Node q: pending ) {
 				
 				if(fiveHelper(q, prev) ==false)
@@ -374,9 +350,7 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			}
 				
 			// 4. If current isn't null, the next node after it should be top of the stack
-			// in a stack, the top will be furthest right in a tree
-			//helperMethod
-			//wanna find nextGreatestAncestor
+
 			if(current !=null) {
 				
 	Node s = getNode(current, root);
@@ -384,33 +358,24 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				if(checkerHelperFour(s, prev)==false)
 					
 					return report("order of stack is wrong");}
-			
-			
-			
-			
-			//if(pending.size()!=0)
-			//order of the stack is from greatest to least. use pending
-				//pending.
-			
-				
-				
-				
-				
-				
-				
-				
+
 				return true;
+				
 		}
 
 		private boolean fiveHelper(Node r, Node t) {
 			//find greatest ancestor, get a pointer
 			Node pointer=t;
 			
-			//can't get an ancestor is t is null
+			//can't get an ancestor if t is null
 			if(t==null) {
+				
 				pointer = root;
+				
 			}
+			
 			else {
+				
 				pointer=t.left;
 				
 			}
@@ -419,7 +384,9 @@ public class HexBoard extends AbstractCollection<HexTile> {
 				
 				//check if thing we are comparing is = to r, if so, return true
 				if(pointer==r) {
+					
 					return true;
+					
 				}
 
 					//keep going right to find r
@@ -433,65 +400,78 @@ public class HexBoard extends AbstractCollection<HexTile> {
 		
 		private MyIterator(boolean ignored) {} // do not change, and do not use in your code
 		
-		// TODO: any helper method(s) (see homework description)
+
 
 		private MyIterator() {
-			// TODO
+			
 			Node cursor=root;
+			
 			current =null;
+			
 			while(cursor !=null) {
+				
 				pending.push(cursor);
+				
 				//after we push it, go left
+				
 				cursor = cursor.left;
+				
 			}
+			
 			assert wellFormed();
+			
 		}
 		
 		@Override // required by Java
 		public boolean hasNext() {
+			
 			if(!(myVersion == version))
+				
 			throw new ConcurrentModificationException("iterator version does not match collection version");
 			
 			
 			//making sure stack is not empty, so a next exists
+			return !(pending.isEmpty()); 
 			
-			
-			return !(pending.isEmpty()); // TODO
 		}
 
 		@Override // required by Java
 		public HexTile next() {
+			
 			if(!(myVersion == version))
+				
 			throw new ConcurrentModificationException("iterator version does not match collection version");
 			
 			if(!(hasNext()))
+				
 				throw new NoSuchElementException("iteration has no more elements");
 			
 			Node temp= pending.pop();
 			
 			HexTile tempH = new HexTile(temp.terrain,temp.loc);
-			//if(temp.right !=null) 
+
 			temp = temp.right;
 			
 			while(temp !=null) {
+				
 				pending.push(temp);
+				
 				//after we push it, go left
+				
 				temp = temp.left;}
 			
 			//make a new hexTile to return
-			
 			current =tempH;
 			
-			return tempH; // TODO: find next entry and generate hex tile on demand
+			return tempH; 
+			
 		}
 
-		
-		
-		
 		@Override // required for functionality
-		//outside remove to help for this remove
 		public void remove() {
+			
 			if(!(myVersion == version))
+				
 			throw new ConcurrentModificationException("iterator version does not match collection version");
 		 
 			//cant remove a null
@@ -500,12 +480,13 @@ public class HexBoard extends AbstractCollection<HexTile> {
 			HexBoard.this.remove(current);
 			//current is now null
 			
-			//HexTile newCurrent = new HexTile(current.getTerrain(), current.getLocation());
 			current = null;
-			//current=pending.pop();
+
 			//increment myVersion
 			myVersion++;
+			
 		}
+		
 	}
 
 	// Do not change anything in this test class:
